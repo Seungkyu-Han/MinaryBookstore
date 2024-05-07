@@ -11,4 +11,6 @@ data class User(
 
     @Column(length = 20)
     var name: String?,
+
+    var profileImg: String
 )
