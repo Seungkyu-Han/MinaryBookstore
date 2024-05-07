@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity
 
 interface AuthService {
     fun getLogin(code: String): ResponseEntity<AuthLoginRes>
+    fun patchLogin(refreshToken: String): ResponseEntity<AuthLoginRes>
 }

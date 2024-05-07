@@ -47,6 +47,14 @@ class AuthServiceImpl(
         return ResponseEntity.ok(AuthLoginRes(refreshToken = refreshToken, accessToken = accessToken))
     }
 
+    override fun patchLogin(refreshToken: String): ResponseEntity<AuthLoginRes> {
+        val token = refreshToken.split(" ")[1]
+        val userId = jwtTokenProvider.getId(token)
+
+        val accessToken = jwtTokenProvider.createAccessToken(userId ?: throw NullPointerException())
+
+        return ResponseEntity.ok(AuthLoginRes(refreshToken = token, accessToken = accessToken))
+    }
 
     private fun register(authKakaoInfoRes: AuthKakaoInfoRes): ResponseEntity<AuthLoginRes>{
 
