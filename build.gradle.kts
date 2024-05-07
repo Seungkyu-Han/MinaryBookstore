@@ -34,6 +34,9 @@ dependencies {
 	compileOnly("org.projectlombok:lombok")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	annotationProcessor("org.projectlombok:lombok")
+
+	//swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
