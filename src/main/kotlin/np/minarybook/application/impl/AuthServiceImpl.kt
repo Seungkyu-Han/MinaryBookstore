@@ -61,7 +61,7 @@ class AuthServiceImpl(
         val accessToken = jwtTokenProvider.createAccessToken(authKakaoInfoRes.id)
         val refreshToken = jwtTokenProvider.createRefreshToken(authKakaoInfoRes.id)
 
-        val user = User(id = authKakaoInfoRes.id, name = authKakaoInfoRes.properties.nickname)
+        val user = User(id = authKakaoInfoRes.id, name = authKakaoInfoRes.properties.nickname, profileImg = authKakaoInfoRes.kakaoAccount.profile.profileImageUrl)
         userRepository.save(user)
 
         return ResponseEntity.ok(AuthLoginRes(refreshToken = refreshToken, accessToken = accessToken))
