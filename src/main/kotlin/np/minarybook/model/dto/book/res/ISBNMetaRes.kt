@@ -1,4 +1,4 @@
-package np.minarybook.model.dto.isbn
+package np.minarybook.model.dto.book.res
 
 data class ISBNMetaRes(
     val isEnd: Boolean,
