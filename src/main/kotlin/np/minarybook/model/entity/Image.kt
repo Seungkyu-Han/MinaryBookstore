@@ -10,10 +10,10 @@ import jakarta.persistence.ManyToOne
 data class Image(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    val id: Int?,
 
     @ManyToOne
-    var bookForSale: BookForSale,
+    var bookForSale: BookForSale?,
 
     var url: String
 )
