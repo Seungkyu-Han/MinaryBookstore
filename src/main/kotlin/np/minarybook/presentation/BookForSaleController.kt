@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import np.minarybook.application.BookForSaleService
 import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
+import np.minarybook.model.dto.bookForSale.res.BookForSaleGetElementRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,5 +32,11 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
     @Operation(summary = "판매 책 업로드")
     fun get(@RequestBody bookForSalePostReq: BookForSalePostReq, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
         return bookForSaleService.post(bookForSalePostReq, authentication)
+    }
+
+    @GetMapping("/list")
+    @Operation()
+    fun getList(@RequestParam category: String?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
+        return bookForSaleService.getList(category, authentication)
     }
 }
