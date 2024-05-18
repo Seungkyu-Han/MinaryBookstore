@@ -1,13 +1,14 @@
 package np.minarybook.model.entity
 
 import jakarta.persistence.*
+import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
 import np.minarybook.model.enum.State
 
 @Entity
 data class BookForSale(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val Id: Int,
+    val id: Int?,
 
     @ManyToOne
     var book: Book,
@@ -27,7 +28,7 @@ data class BookForSale(
 
     var isDamaged: Short,
 
-    var Detail: String,
+    var detail: String,
 
     var salePrice: Int,
 
@@ -36,4 +37,21 @@ data class BookForSale(
     val longitude: Float,
 
     val latitude: Float
-)
+){
+    constructor(bookForSalePostReq: BookForSalePostReq, book: Book): this(
+        id = null,
+        book = book,
+        state = State.SALE,
+        isUnderline = bookForSalePostReq.underline,
+        isWriting = bookForSalePostReq.writing,
+        isClean = bookForSalePostReq.clean,
+        isName = bookForSalePostReq.name,
+        isDiscoloration = bookForSalePostReq.discoloration,
+        isDamaged = bookForSalePostReq.damaged,
+        detail = bookForSalePostReq.detail,
+        salePrice = bookForSalePostReq.salePrice,
+        category = bookForSalePostReq.category,
+        longitude = bookForSalePostReq.longitude,
+        latitude = bookForSalePostReq.latitude
+    )
+}

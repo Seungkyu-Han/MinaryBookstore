@@ -12,7 +12,7 @@ data class Book(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long?,
 
-    var title: String,
+    var title: String?,
 
     var price: Int?,
 
@@ -31,5 +31,9 @@ data class Book(
     constructor(bookPostReq: BookPostReq): this(
         id = null, title = bookPostReq.title, price = bookPostReq.price, author = bookPostReq.author, publisher = bookPostReq.publisher,
         image = null, publicationDate = bookPostReq.publicationDate, isbn = bookPostReq.isbn, find = false
+    )
+
+    constructor(id: Long): this(
+        id = id, title = null, price = null, author = null, publisher = null, image = null, publicationDate = null, isbn = null, find = false
     )
 }
