@@ -4,19 +4,9 @@ data class BookForSalePostReq(
     val bookId: Long,
     val imageIdList: List<Int>,
 
-    var underline: Short,
+    var conditions: List<Short>,
 
-    var writing: Short,
-
-    var clean: Short,
-
-    var name: Short,
-
-    var discoloration: Short,
-
-    var damaged: Short,
-
-    var detail: String,
+    var detail: String?,
 
     var salePrice: Int,
 
