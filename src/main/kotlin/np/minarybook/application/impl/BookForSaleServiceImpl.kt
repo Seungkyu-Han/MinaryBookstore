@@ -30,24 +30,9 @@ class BookForSaleServiceImpl(
 
         val bookForSale = bookForSaleRepository.findById(id).orElseThrow{NullPointerException()}
 
-        val image = imageRepository.findByBookForSale(bookForSale)
+        val image = imageRepository.findByBookForSale(bookForSale).map { image -> image.url }
 
-        return ResponseEntity.ok(
-            BookForSaleGetRes(
-                title = bookForSale.book.title ?: "",
-                price = bookForSale.book.price,
-                author = bookForSale.book.author,
-                state = bookForSale.state.name,
-                image = image.map { imageElement -> imageElement.url },
-                publicationDate = bookForSale.book.publicationDate ?: "",
-                publisher = bookForSale.book.publisher ?: "",
-                salePrice = bookForSale.salePrice,
-                category = bookForSale.category,
-                isbn = bookForSale.book.isbn ?: "",
-                longitude = bookForSale.longitude,
-                latitude = bookForSale.latitude
-            )
-        )
+        return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image))
     }
 
     override fun post(
@@ -75,9 +60,9 @@ class BookForSaleServiceImpl(
         authentication: Authentication
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
-            bookForSaleRepository.findByCategoryOrderByIdDesc(category, PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findByCategoryAndSalePriceGreaterThan(category, 0, PageRequest.of(0, mainPageElementSize))
         } else{
-            bookForSaleRepository.findByOrderByIdDesc(PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findBySalePriceGreaterThanOrderByIdDesc(0, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
             bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK
