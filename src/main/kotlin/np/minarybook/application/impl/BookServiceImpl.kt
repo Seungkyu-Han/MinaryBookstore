@@ -59,16 +59,7 @@ class BookServiceImpl(
         return if(book.isEmpty)
             null
         else
-            BookGetRes(
-                id = book.get().id ?: throw NullPointerException(),
-                title = book.get().title,
-                price = book.get().price,
-                author = book.get().author,
-                img = book.get().image,
-                publicationDate = book.get().publicationDate,
-                publisher = book.get().publisher,
-                isbn = book.get().isbn
-            )
+            BookGetRes(book.get())
 
     }
 
