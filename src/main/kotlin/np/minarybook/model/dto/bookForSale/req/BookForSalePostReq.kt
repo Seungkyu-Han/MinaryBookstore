@@ -1,5 +1,7 @@
 package np.minarybook.model.dto.bookForSale.req
 
+import np.minarybook.model.enum.Category
+
 data class BookForSalePostReq(
     val bookId: Long,
     val imageIdList: List<Int>,
@@ -10,7 +12,7 @@ data class BookForSalePostReq(
 
     var salePrice: Int,
 
-    val category: String,
+    val category: Category,
 
     val longitude: Float,
 

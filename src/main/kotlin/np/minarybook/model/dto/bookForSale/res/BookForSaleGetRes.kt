@@ -2,6 +2,7 @@ package np.minarybook.model.dto.bookForSale.res
 
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.entity.BookForSale
+import np.minarybook.model.enum.Category
 
 data class BookForSaleGetRes(
     val id: Int,
@@ -10,7 +11,7 @@ data class BookForSaleGetRes(
     val imageList: List<String>,
     val detail: String,
     val salePrice: Int,
-    val category: String,
+    val category: Category,
     val longitude: Float,
     val latitude: Float
 ){
