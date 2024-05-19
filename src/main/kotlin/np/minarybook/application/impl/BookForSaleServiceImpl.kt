@@ -6,6 +6,7 @@ import np.minarybook.model.dto.bookForSale.res.BookForSaleGetElementRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForSale
+import np.minarybook.model.enum.Category
 import np.minarybook.repository.BookForSaleRepository
 import np.minarybook.repository.BookRepository
 import np.minarybook.repository.ImageRepository
@@ -56,7 +57,7 @@ class BookForSaleServiceImpl(
     }
 
     override fun getList(
-        category: String?,
+        category: Category?,
         authentication: Authentication
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
@@ -67,5 +68,10 @@ class BookForSaleServiceImpl(
         return ResponseEntity(
             bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK
         )
+    }
+
+    override fun delete(id: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        bookForSaleRepository.deleteById(id)
+        return ResponseEntity.ok().build()
     }
 }

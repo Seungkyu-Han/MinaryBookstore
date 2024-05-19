@@ -1,6 +1,7 @@
 package np.minarybook.model.dto.bookForSale.res
 
 import np.minarybook.model.entity.BookForSale
+import np.minarybook.model.enum.Category
 
 data class BookForSaleGetElementRes(
     val id: Int,
@@ -9,7 +10,7 @@ data class BookForSaleGetElementRes(
     val img: String,
     val price: Int,
     val salePrice: Int,
-    val category: String,
+    val category: Category,
     val publisher: String,
     val publicationDate: String,
     val isSave: Boolean

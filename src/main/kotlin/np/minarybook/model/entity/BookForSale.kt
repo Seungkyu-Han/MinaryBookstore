@@ -2,6 +2,7 @@ package np.minarybook.model.entity
 
 import jakarta.persistence.*
 import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
+import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
 
 @Entity
@@ -32,7 +33,8 @@ data class BookForSale(
 
     var salePrice: Int,
 
-    val category: String,
+    @Enumerated(EnumType.STRING)
+    val category: Category,
 
     val longitude: Float,
 
