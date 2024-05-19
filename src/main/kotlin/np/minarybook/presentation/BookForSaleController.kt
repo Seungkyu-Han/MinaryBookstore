@@ -7,9 +7,11 @@ import np.minarybook.application.BookForSaleService
 import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetElementRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
+import np.minarybook.model.enum.Category
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 class BookForSaleController(private val bookForSaleService: BookForSaleService) {
 
     @GetMapping
-    @Operation(summary = "판매 책 조회 API{개발 중}")
+    @Operation(summary = "판매 책 조회 API")
     fun get(@RequestParam id: Int): ResponseEntity<BookForSaleGetRes> {
         return bookForSaleService.get(id)
     }
@@ -34,9 +36,15 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
         return bookForSaleService.post(bookForSalePostReq, authentication)
     }
 
+    @DeleteMapping
+    @Operation(summary = "판매 책 글 삭제 API")
+    fun delete(@RequestParam id: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForSaleService.delete(id, authentication)
+    }
+
     @GetMapping("/list")
     @Operation()
-    fun getList(@RequestParam category: String?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
+    fun getList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
         return bookForSaleService.getList(category, authentication)
     }
 }
