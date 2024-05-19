@@ -12,5 +12,7 @@ data class User(
     @Column(length = 20)
     var name: String?,
 
-    var profileImg: String
-)
+    var profileImg: String?
+){
+    constructor(id: Long): this(id, null, null)
+}
