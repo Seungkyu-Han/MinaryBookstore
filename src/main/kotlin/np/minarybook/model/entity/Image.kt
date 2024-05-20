@@ -15,5 +15,8 @@ data class Image(
     @ManyToOne
     var bookForSale: BookForSale?,
 
+    @ManyToOne
+    var bookForRent: BookForRent,
+
     var url: String
 )

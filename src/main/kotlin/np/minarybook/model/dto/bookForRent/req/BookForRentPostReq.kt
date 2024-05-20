@@ -1,8 +1,9 @@
-package np.minarybook.model.dto.bookForSale.req
+package np.minarybook.model.dto.bookForRent.req
 
 import np.minarybook.model.enum.Category
+import java.time.LocalDate
 
-data class BookForSalePostReq(
+data class BookForRentPostReq(
     val bookId: Long,
 
     val imageIdList: List<Int>,
@@ -19,5 +20,9 @@ data class BookForSalePostReq(
 
     val latitude: Float,
 
-    val address: String
+    val address: String,
+
+    val startDate: LocalDate,
+
+    val endDate: LocalDate
 )
