@@ -42,7 +42,9 @@ data class BookForSale(
 
     var longitude: Float,
 
-    var latitude: Float
+    var latitude: Float,
+
+    var address: String
 ){
     constructor(bookForSalePostReq: BookForSalePostReq, book: Book, user: User): this(
         id = null,
@@ -59,7 +61,8 @@ data class BookForSale(
         salePrice = bookForSalePostReq.salePrice,
         category = bookForSalePostReq.category,
         longitude = bookForSalePostReq.longitude,
-        latitude = bookForSalePostReq.latitude
+        latitude = bookForSalePostReq.latitude,
+        address = bookForSalePostReq.address
     )
 
     fun put(bookForSalePutReq: BookForSalePutReq){
@@ -74,5 +77,6 @@ data class BookForSale(
         category = bookForSalePutReq.category
         longitude = bookForSalePutReq.longitude
         latitude = bookForSalePutReq.latitude
+        address = bookForSalePutReq.address
     }
 }

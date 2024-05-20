@@ -16,5 +16,7 @@ data class BookForSalePostReq(
 
     val longitude: Float,
 
-    val latitude: Float
+    val latitude: Float,
+
+    val address: String
 )

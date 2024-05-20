@@ -17,5 +17,7 @@ data class BookForSalePutReq(
 
     val longitude: Float,
 
-    val latitude: Float
+    val latitude: Float,
+
+    val address: String
 )
