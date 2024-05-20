@@ -33,7 +33,7 @@ class ImageServiceImpl(
     ): ResponseEntity<ImagePostRes> {
         return ResponseEntity(ImagePostRes(multipartFileList.map {
                 multipartFile ->
-            val image = Image(id = null, bookForSale = null, url = "${s3BucketPrefix}${uploadImageToS3(multipartFile)}")
+            val image = Image(id = null, bookForSale = null, bookForRent = null, url = "${s3BucketPrefix}${uploadImageToS3(multipartFile)}")
             imageRepository.save(image)
             image.id ?: throw NullPointerException() }), HttpStatus.OK)
     }
