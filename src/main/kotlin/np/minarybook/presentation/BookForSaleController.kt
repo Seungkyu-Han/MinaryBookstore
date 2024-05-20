@@ -35,7 +35,7 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
 
     @PostMapping
     @Operation(summary = "판매 책 업로드")
-    fun get(@RequestBody bookForSalePostReq: BookForSalePostReq, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+    fun post(@RequestBody bookForSalePostReq: BookForSalePostReq, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
         return bookForSaleService.post(bookForSalePostReq, authentication)
     }
 
