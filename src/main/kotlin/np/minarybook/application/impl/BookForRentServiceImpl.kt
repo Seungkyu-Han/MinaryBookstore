@@ -2,6 +2,7 @@ package np.minarybook.application.impl
 
 import np.minarybook.application.BookForRentService
 import np.minarybook.model.dto.bookForRent.req.BookForRentPostReq
+import np.minarybook.model.dto.bookForRent.req.BookForRentPutReq
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForRent
@@ -27,6 +28,13 @@ class BookForRentServiceImpl(
         val image = imageRepository.findByBookForRent(bookForRent).map { image -> image.url }
 
         return ResponseEntity.ok(BookForRentGetRes(bookForRent, image))
+    }
+
+    override fun put(bookForRentPutReq: BookForRentPutReq, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForRent = bookForRentRepository.findById(bookForRentPutReq.id).orElseThrow{NullPointerException()}
+        bookForRent.put(bookForRentPutReq)
+        bookForRentRepository.save(bookForRent)
+        return ResponseEntity.ok().build()
     }
 
     override fun post(
