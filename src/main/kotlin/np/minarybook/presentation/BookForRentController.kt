@@ -9,6 +9,7 @@ import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -28,8 +29,14 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
     }
 
     @PostMapping
-    @Operation(summary = "판매 책 업로드")
+    @Operation(summary = "대여 책 업로드")
     fun post(@RequestBody bookForRentPostReq: BookForRentPostReq, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
         return bookForRentService.post(bookForRentPostReq, authentication)
+    }
+
+    @DeleteMapping
+    @Operation(summary = "대여 책 글 삭제 API")
+    fun delete(@RequestParam id: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForRentService.delete(id, authentication)
     }
 }

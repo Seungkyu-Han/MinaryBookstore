@@ -9,4 +9,5 @@ import org.springframework.security.core.Authentication
 interface BookForRentService {
     fun get(id: Int): ResponseEntity<BookForRentGetRes>
     fun post(bookForRentPostReq: BookForRentPostReq, authentication: Authentication): ResponseEntity<HttpStatus>
+    fun delete(id: Int, authentication: Authentication): ResponseEntity<HttpStatus>
 }
