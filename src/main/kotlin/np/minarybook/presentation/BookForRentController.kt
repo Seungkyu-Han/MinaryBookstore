@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import np.minarybook.application.BookForRentService
 import np.minarybook.model.dto.bookForRent.req.BookForRentPostReq
 import np.minarybook.model.dto.bookForRent.req.BookForRentPutReq
+import np.minarybook.model.dto.bookForRent.res.BookForRentGetElementRes
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
+import np.minarybook.model.enum.Category
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
@@ -53,5 +55,11 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
     @Operation(summary = "책 대여 완료")
     fun patchSold(@RequestParam bookForRentId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
         return bookForRentService.patchSold(bookForRentId, authentication)
+    }
+
+    @GetMapping("/list")
+    @Operation(summary = "각 카테고리별 조회", description = "null이면 전체로 조회")
+    fun getList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForRentGetElementRes>>{
+        return bookForRentService.getList(category, authentication)
     }
 }
