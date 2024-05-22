@@ -108,4 +108,22 @@ class BookForSaleServiceImpl(
         bookForSaleRepository.save(bookForSale)
         return ResponseEntity(HttpStatus.OK)
     }
+
+    override fun getSearchTitle(
+        title: String,
+        authentication: Authentication?
+    ): ResponseEntity<List<BookForSaleGetElementRes>> {
+        return ResponseEntity(bookForSaleRepository.findByBookTitle("%${title}%").map{
+            bookForSale -> BookForSaleGetElementRes(bookForSale)
+        }, HttpStatus.OK)
+    }
+
+    override fun getSearchIsbn(
+        isbn: String,
+        authentication: Authentication?
+    ): ResponseEntity<List<BookForSaleGetElementRes>> {
+        return ResponseEntity(bookForSaleRepository.findByBookIsbn(isbn).map{
+            bookForSale -> BookForSaleGetElementRes(bookForSale)
+        }, HttpStatus.OK)
+    }
 }

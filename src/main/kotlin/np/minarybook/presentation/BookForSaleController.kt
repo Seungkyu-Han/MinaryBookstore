@@ -67,4 +67,16 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
     fun getShareList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
         return bookForSaleService.getShareList(category, authentication)
     }
+
+    @GetMapping("/search-title")
+    @Operation(summary = "판매 중인 책을 이름으로 조회")
+    fun getSearchTitle(@RequestParam title: String, @Parameter(hidden = true, required = false) authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>{
+        return bookForSaleService.getSearchTitle(title, authentication)
+    }
+
+    @GetMapping("/search-isbn")
+    @Operation(summary = "판매 중인 책을 isbn 조회")
+    fun getSearchIsbn(@RequestParam isbn: String, @Parameter(hidden = true, required = false) authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>{
+        return bookForSaleService.getSearchIsbn(isbn, authentication)
+    }
 }
