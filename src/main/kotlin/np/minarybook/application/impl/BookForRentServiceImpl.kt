@@ -88,7 +88,25 @@ class BookForRentServiceImpl(
             bookForRentRepository.findByStateOrderByIdDesc(State.SALE, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
-            bookForRentList.map {bookForSale ->  BookForRentGetElementRes(bookForSale) }, HttpStatus.OK
+            bookForRentList.map {bookForRent ->  BookForRentGetElementRes(bookForRent) }, HttpStatus.OK
         )
+    }
+
+    override fun getSearchTitle(
+        title: String,
+        authentication: Authentication?
+    ): ResponseEntity<List<BookForRentGetElementRes>> {
+        return ResponseEntity(bookForRentRepository.findByBookTitle("%${title}%").map{
+                bookForRent -> BookForRentGetElementRes(bookForRent)
+        }, HttpStatus.OK)
+    }
+
+    override fun getSearchIsbn(
+        isbn: String,
+        authentication: Authentication?
+    ): ResponseEntity<List<BookForRentGetElementRes>> {
+        return ResponseEntity(bookForRentRepository.findByBookIsbn(isbn).map{
+                bookForRent -> BookForRentGetElementRes((bookForRent))
+        }, HttpStatus.OK)
     }
 }
