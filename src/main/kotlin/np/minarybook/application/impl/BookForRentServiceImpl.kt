@@ -7,6 +7,7 @@ import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForRent
 import np.minarybook.model.entity.User
+import np.minarybook.model.enum.State
 import np.minarybook.repository.BookForRentRepository
 import np.minarybook.repository.ImageRepository
 import org.springframework.beans.factory.annotation.Value
@@ -55,6 +56,15 @@ class BookForRentServiceImpl(
             image.bookForRent = bookForRent
         }
 
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    override fun patchSold(bookForRentId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForRent = bookForRentRepository.findById(bookForRentId).orElseThrow { NullPointerException() }
+        if (bookForRent.user.id != authentication.name.toLong())
+            return ResponseEntity(HttpStatus.FORBIDDEN)
+        bookForRent.state = State.SOLD
+        bookForRentRepository.save(bookForRent)
         return ResponseEntity(HttpStatus.OK)
     }
 

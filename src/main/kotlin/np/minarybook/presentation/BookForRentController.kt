@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -46,5 +47,11 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
     @Operation(summary = "대여 책 글 수정")
     fun put(@RequestBody bookForRentPutReq: BookForRentPutReq, @Parameter(hidden = true) authentication: Authentication):ResponseEntity<HttpStatus>{
         return bookForRentService.put(bookForRentPutReq, authentication)
+    }
+
+    @PatchMapping("/sold")
+    @Operation(summary = "책 대여 완료")
+    fun patchSold(@RequestParam bookForRentId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForRentService.patchSold(bookForRentId, authentication)
     }
 }

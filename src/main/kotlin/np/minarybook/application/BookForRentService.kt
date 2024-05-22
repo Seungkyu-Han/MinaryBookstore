@@ -12,4 +12,5 @@ interface BookForRentService {
     fun post(bookForRentPostReq: BookForRentPostReq, authentication: Authentication): ResponseEntity<HttpStatus>
     fun delete(id: Int, authentication: Authentication): ResponseEntity<HttpStatus>
     fun put(bookForRentPutReq: BookForRentPutReq, authentication: Authentication): ResponseEntity<HttpStatus>
+    fun patchSold(bookForRentId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
 }
