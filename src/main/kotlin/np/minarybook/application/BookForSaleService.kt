@@ -17,4 +17,6 @@ interface BookForSaleService {
     fun put(bookForSalePutReq: BookForSalePutReq, authentication: Authentication): ResponseEntity<HttpStatus>
     fun getShareList(category: Category?, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
     fun patchSold(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
+    fun getSearchTitle(title: String, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
+    fun getSearchIsbn(isbn: String, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
 }
