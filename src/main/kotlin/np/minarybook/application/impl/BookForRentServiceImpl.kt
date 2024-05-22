@@ -59,6 +59,7 @@ class BookForRentServiceImpl(
                 imageId ->
             val image = imageRepository.findById(imageId).orElseThrow{NullPointerException()}
             image.bookForRent = bookForRent
+            imageRepository.save(image)
         }
 
         return ResponseEntity(HttpStatus.OK)
