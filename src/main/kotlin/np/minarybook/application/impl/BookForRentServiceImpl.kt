@@ -49,4 +49,9 @@ class BookForRentServiceImpl(
 
         return ResponseEntity(HttpStatus.OK)
     }
+
+    override fun delete(id: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        bookForRentRepository.deleteByIdAndUser(id, User(authentication.name.toLong()))
+        return ResponseEntity(HttpStatus.OK)
+    }
 }
