@@ -26,6 +26,7 @@ class SecurityConfig(
             }
             .httpBasic { obj: HttpBasicConfigurer<HttpSecurity> -> obj.disable() }
             .authorizeHttpRequests { authorize ->
+                authorize.requestMatchers("/api/book/**").authenticated()
                 authorize.anyRequest().permitAll()
 //                authorize.requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**", "/api/auth/**").permitAll()
 //                        .anyRequest().permitAll()
