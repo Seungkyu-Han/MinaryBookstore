@@ -1,6 +1,6 @@
 package np.minarybook.model.dto.book.res
 
-import np.minarybook.util.StringUtil
+import np.minarybook.utilization.StringUtil
 import np.minarybook.model.entity.Book
 
 data class BookGetRes(

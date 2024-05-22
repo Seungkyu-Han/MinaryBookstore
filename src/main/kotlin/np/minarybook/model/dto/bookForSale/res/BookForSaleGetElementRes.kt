@@ -2,11 +2,12 @@ package np.minarybook.model.dto.bookForSale.res
 
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.enum.Category
+import np.minarybook.utilization.StringUtil
 
 data class BookForSaleGetElementRes(
     val id: Int,
     val title: String,
-    val author: String,
+    val author: List<String>,
     val img: String,
     val price: Int,
     val salePrice: Int,
@@ -18,7 +19,7 @@ data class BookForSaleGetElementRes(
     constructor(bookForSale: BookForSale): this(
         id = bookForSale.id ?: 0,
         title = bookForSale.book.title ?: "",
-        author = bookForSale.book.author ?: "",
+        author =StringUtil().stringToList(bookForSale.book.author ?: ""),
         img = bookForSale.book.image ?: "",
         price = bookForSale.book.price ?: 0,
         salePrice = bookForSale.salePrice,

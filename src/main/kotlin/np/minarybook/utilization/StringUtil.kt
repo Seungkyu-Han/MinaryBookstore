@@ -1,4 +1,4 @@
-package np.minarybook.util
+package np.minarybook.utilization
 
 class StringUtil {
 
