@@ -2,6 +2,7 @@ package np.minarybook.model.entity
 
 import jakarta.persistence.*
 import np.minarybook.model.dto.bookForRent.req.BookForRentPostReq
+import np.minarybook.model.dto.bookForRent.req.BookForRentPutReq
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
 import java.time.LocalDate
@@ -70,4 +71,21 @@ data class BookForRent(
         startDate = bookForRentPostReq.startDate,
         endDate = bookForRentPostReq.endDate
     )
+
+    fun put(bookForRentPutReq: BookForRentPutReq){
+        isUnderline = bookForRentPutReq.conditions[0]
+        isWriting = bookForRentPutReq.conditions[1]
+        isClean = bookForRentPutReq.conditions[2]
+        isName = bookForRentPutReq.conditions[3]
+        isDiscoloration = bookForRentPutReq.conditions[4]
+        isDamaged = bookForRentPutReq.conditions[5]
+        detail = bookForRentPutReq.detail ?: ""
+        salePrice = bookForRentPutReq.salePrice
+        category = bookForRentPutReq.category
+        longitude = bookForRentPutReq.longitude
+        latitude = bookForRentPutReq.latitude
+        address = bookForRentPutReq.address
+        startDate = bookForRentPutReq.startDate
+        endDate = bookForRentPutReq.endDate
+    }
 }
