@@ -29,13 +29,13 @@ class BookForSaleServiceImpl(
     private val mainPageElementSize: Int
 ) : BookForSaleService{
 
-    override fun get(id: Int): ResponseEntity<BookForSaleGetRes> {
+    override fun get(id: Int, authentication: Authentication?): ResponseEntity<BookForSaleGetRes> {
 
         val bookForSale = bookForSaleRepository.findById(id).orElseThrow{NullPointerException()}
 
         val image = imageRepository.findByBookForSale(bookForSale).map { image -> image.url }
 
-        return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image))
+        return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image, bookForSale.user.id == authentication?.name?.toLong()))
     }
 
     override fun post(
@@ -62,7 +62,7 @@ class BookForSaleServiceImpl(
 
     override fun getList(
         category: Category?,
-        authentication: Authentication
+        authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
             bookForSaleRepository.findByCategoryAndStateAndSalePriceGreaterThanOrderByIdDesc(category, State.SALE, 0, PageRequest.of(0, mainPageElementSize))
@@ -88,7 +88,7 @@ class BookForSaleServiceImpl(
 
     override fun getShareList(
         category: Category?,
-        authentication: Authentication
+        authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
             bookForSaleRepository.findByCategoryAndStateAndSalePriceOrderByIdDesc(category,  State.SALE,0, PageRequest.of(0, mainPageElementSize))

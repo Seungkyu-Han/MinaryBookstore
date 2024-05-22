@@ -10,11 +10,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 
 interface BookForSaleService {
-    fun get(id: Int): ResponseEntity<BookForSaleGetRes>
+    fun get(id: Int, authentication: Authentication?): ResponseEntity<BookForSaleGetRes>
     fun post(bookForSalePostReq: BookForSalePostReq, authentication: Authentication): ResponseEntity<HttpStatus>
-    fun getList(category: Category?, authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>
+    fun getList(category: Category?, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
     fun delete(id: Int, authentication: Authentication): ResponseEntity<HttpStatus>
     fun put(bookForSalePutReq: BookForSalePutReq, authentication: Authentication): ResponseEntity<HttpStatus>
-    fun getShareList(category: Category?, authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>
+    fun getShareList(category: Category?, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
     fun patchSold(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
 }

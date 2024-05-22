@@ -29,8 +29,8 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
 
     @GetMapping
     @Operation(summary = "판매 책 조회 API")
-    fun get(@RequestParam id: Int): ResponseEntity<BookForSaleGetRes> {
-        return bookForSaleService.get(id)
+    fun get(@RequestParam id: Int, @Parameter(hidden = true) authentication: Authentication?): ResponseEntity<BookForSaleGetRes> {
+        return bookForSaleService.get(id, authentication)
     }
 
     @PostMapping
@@ -58,13 +58,13 @@ class BookForSaleController(private val bookForSaleService: BookForSaleService) 
     }
     @GetMapping("/list")
     @Operation(summary = "각 카테고리별 조회", description = "null이면 전체로 조회")
-    fun getList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
+    fun getList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>{
         return bookForSaleService.getList(category, authentication)
     }
 
     @GetMapping("/share-list")
     @Operation(summary = "각 카테고리별 조회, 가격이 0원인거 조회", description = "null이면 전체로 조회")
-    fun getShareList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForSaleGetElementRes>>{
+    fun getShareList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>{
         return bookForSaleService.getShareList(category, authentication)
     }
 }
