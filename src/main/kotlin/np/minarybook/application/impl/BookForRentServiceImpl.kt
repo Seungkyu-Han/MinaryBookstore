@@ -25,13 +25,15 @@ class BookForRentServiceImpl(
     private val imageRepository: ImageRepository,
     @Value("\${mainPageElementSize}")
     private val mainPageElementSize: Int) : BookForRentService{
-    override fun get(id: Int): ResponseEntity<BookForRentGetRes> {
+    override fun get(id: Int, authentication: Authentication?): ResponseEntity<BookForRentGetRes> {
 
         val bookForRent = bookForRentRepository.findById(id).orElseThrow{NullPointerException()}
 
         val image = imageRepository.findByBookForRent(bookForRent).map { image -> image.url }
 
-        return ResponseEntity.ok(BookForRentGetRes(bookForRent, image))
+        return ResponseEntity.ok(BookForRentGetRes(bookForRent, image,
+            authentication?.name?.toLong() == bookForRent.user.id
+        ))
     }
 
     override fun put(bookForRentPutReq: BookForRentPutReq, authentication: Authentication): ResponseEntity<HttpStatus> {
@@ -78,7 +80,7 @@ class BookForRentServiceImpl(
 
     override fun getList(
         category: Category?,
-        authentication: Authentication
+        authentication: Authentication?
     ): ResponseEntity<List<BookForRentGetElementRes>> {
         val bookForRentList: List<BookForRent> = if(category != null){
             bookForRentRepository.findByCategoryAndStateOrderByIdDesc(category, State.SALE,  PageRequest.of(0, mainPageElementSize))

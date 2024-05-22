@@ -29,8 +29,8 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
 
     @GetMapping
     @Operation(summary = "대여 책 조회 API")
-    fun get(@RequestParam id: Int): ResponseEntity<BookForRentGetRes>{
-        return bookForRentService.get(id)
+    fun get(@RequestParam id: Int, @Parameter(hidden = true, required = false) authentication: Authentication): ResponseEntity<BookForRentGetRes>{
+        return bookForRentService.get(id, authentication)
     }
 
     @PostMapping
@@ -59,7 +59,7 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
 
     @GetMapping("/list")
     @Operation(summary = "각 카테고리별 조회", description = "null이면 전체로 조회")
-    fun getList(@RequestParam category: Category?, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<List<BookForRentGetElementRes>>{
+    fun getList(@RequestParam category: Category?, @Parameter(hidden = true, required = false) authentication: Authentication): ResponseEntity<List<BookForRentGetElementRes>>{
         return bookForRentService.getList(category, authentication)
     }
 }

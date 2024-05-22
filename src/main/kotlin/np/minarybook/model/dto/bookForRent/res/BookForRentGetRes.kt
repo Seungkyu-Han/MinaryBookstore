@@ -17,9 +17,10 @@ data class BookForRentGetRes(
     val latitude: Float,
     val address: String,
     val startDate: LocalDate,
-    val endDate: LocalDate
+    val endDate: LocalDate,
+    val editable: Boolean
 ){
-    constructor(bookForRent: BookForRent, imageList: List<String>): this(
+    constructor(bookForRent: BookForRent, imageList: List<String>, editable: Boolean): this(
         id = bookForRent.id ?: 0,
         bookGetRes = BookGetRes(bookForRent.book),
         imageList = imageList,
@@ -33,6 +34,7 @@ data class BookForRentGetRes(
         latitude = bookForRent.latitude,
         address = bookForRent.address,
         startDate = bookForRent.startDate,
-        endDate = bookForRent.endDate
+        endDate = bookForRent.endDate,
+        editable = editable
     )
 }

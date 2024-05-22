@@ -14,9 +14,10 @@ data class BookForSaleGetRes(
     val category: Category,
     val longitude: Float,
     val latitude: Float,
-    val address: String?
+    val address: String?,
+    val editable: Boolean
 ){
-    constructor(bookForSale: BookForSale, imageList: List<String>): this(
+    constructor(bookForSale: BookForSale, imageList: List<String>, editable: Boolean): this(
         id = bookForSale.id ?: 0,
         bookGetRes = BookGetRes(bookForSale.book),
         imageList = imageList,
@@ -28,6 +29,7 @@ data class BookForSaleGetRes(
         category = bookForSale.category,
         longitude = bookForSale.longitude,
         latitude = bookForSale.latitude,
-        address = bookForSale.address
+        address = bookForSale.address,
+        editable = editable
     )
 }
