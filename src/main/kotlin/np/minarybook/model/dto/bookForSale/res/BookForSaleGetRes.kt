@@ -14,7 +14,7 @@ data class BookForSaleGetRes(
     val category: Category,
     val longitude: Float,
     val latitude: Float,
-    val address: String
+    val address: String?
 ){
     constructor(bookForSale: BookForSale, imageList: List<String>): this(
         id = bookForSale.id ?: 0,
