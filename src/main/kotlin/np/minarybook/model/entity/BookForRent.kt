@@ -49,7 +49,9 @@ data class BookForRent(
 
     var latitude: Float,
 
-    var address: String
+    var address: String,
+
+    var createdAt: LocalDate = LocalDate.now()
 ){
     constructor(bookForRentPostReq: BookForRentPostReq, book: Book, user: User): this(
         id = null,

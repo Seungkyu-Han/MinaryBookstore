@@ -20,7 +20,8 @@ data class BookForRentGetRes(
     val startDate: LocalDate,
     val endDate: LocalDate,
     val editable: Boolean,
-    val state: State
+    val state: State,
+    val createdAt: LocalDate
 ){
     constructor(bookForRent: BookForRent, imageList: List<String>, editable: Boolean): this(
         id = bookForRent.id ?: 0,
@@ -38,6 +39,7 @@ data class BookForRentGetRes(
         startDate = bookForRent.startDate,
         endDate = bookForRent.endDate,
         editable = editable,
-        state = bookForRent.state
+        state = bookForRent.state,
+        createdAt = bookForRent.createdAt
     )
 }

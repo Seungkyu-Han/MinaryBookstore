@@ -5,6 +5,7 @@ import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
 import np.minarybook.model.dto.bookForSale.req.BookForSalePutReq
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
+import java.time.LocalDate
 
 @Entity
 data class BookForSale(
@@ -44,7 +45,9 @@ data class BookForSale(
 
     var latitude: Float,
 
-    var address: String
+    var address: String,
+
+    var createdAt: LocalDate = LocalDate.now()
 ){
     constructor(bookForSalePostReq: BookForSalePostReq, book: Book, user: User): this(
         id = null,

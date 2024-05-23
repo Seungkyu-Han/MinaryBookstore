@@ -4,6 +4,7 @@ import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
+import java.time.LocalDate
 
 data class BookForSaleGetRes(
     val id: Int,
@@ -17,7 +18,8 @@ data class BookForSaleGetRes(
     val latitude: Float,
     val address: String?,
     val editable: Boolean,
-    val state: State
+    val state: State,
+    val createdAt: LocalDate
 ){
     constructor(bookForSale: BookForSale, imageList: List<String>, editable: Boolean): this(
         id = bookForSale.id ?: 0,
@@ -33,6 +35,7 @@ data class BookForSaleGetRes(
         latitude = bookForSale.latitude,
         address = bookForSale.address,
         editable = editable,
-        state = bookForSale.state
+        state = bookForSale.state,
+        createdAt = bookForSale.createdAt
     )
 }
