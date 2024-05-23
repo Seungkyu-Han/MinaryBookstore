@@ -2,6 +2,7 @@ package np.minarybook.model.dto.bookForSale.res
 
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.enum.Category
+import np.minarybook.model.enum.State
 import np.minarybook.utilization.StringUtil
 
 data class BookForSaleGetElementRes(
@@ -14,7 +15,8 @@ data class BookForSaleGetElementRes(
     val category: Category,
     val publisher: String,
     val publicationDate: String,
-    val isSave: Boolean
+    val isSave: Boolean,
+    val state: State
 ){
     constructor(bookForSale: BookForSale): this(
         id = bookForSale.id ?: 0,
@@ -26,6 +28,7 @@ data class BookForSaleGetElementRes(
         category = bookForSale.category,
         publisher = bookForSale.book.publisher ?: "",
         publicationDate = bookForSale.book.publicationDate ?: "",
-        isSave = false
+        isSave = false,
+        state = bookForSale.state
     )
 }

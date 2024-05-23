@@ -9,10 +9,10 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface BookForRentRepository: JpaRepository<BookForRent, Int> {
-    fun findByCategoryAndStateOrderByIdDesc(category: Category, state: State, pageable: Pageable): List<BookForRent>
+    fun findByCategoryOrderByIdDesc(category: Category, pageable: Pageable): List<BookForRent>
 
     fun deleteByIdAndUser(id: Int, user: User)
-    fun findByStateOrderByIdDesc(sale: State, pageable: Pageable): List<BookForRent>
+    fun findByOrderByIdDesc(pageable: Pageable): List<BookForRent>
 
     @Query("SELECT bookForRent FROM BookForRent bookForRent " +
             "LEFT JOIN bookForRent.book book " +

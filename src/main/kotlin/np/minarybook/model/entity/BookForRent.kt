@@ -55,7 +55,7 @@ data class BookForRent(
         id = null,
         book = book,
         user = user,
-        state = State.SALE,
+        state = State.AVAILABLE,
         isUnderline = bookForRentPostReq.conditions[0],
         isWriting = bookForRentPostReq.conditions[1],
         isClean = bookForRentPostReq.conditions[2],

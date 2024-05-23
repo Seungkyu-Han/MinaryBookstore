@@ -3,6 +3,7 @@ package np.minarybook.model.dto.bookForRent.res
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.entity.BookForRent
 import np.minarybook.model.enum.Category
+import np.minarybook.model.enum.State
 import java.time.LocalDate
 
 data class BookForRentGetRes(
@@ -18,7 +19,8 @@ data class BookForRentGetRes(
     val address: String,
     val startDate: LocalDate,
     val endDate: LocalDate,
-    val editable: Boolean
+    val editable: Boolean,
+    val state: State
 ){
     constructor(bookForRent: BookForRent, imageList: List<String>, editable: Boolean): this(
         id = bookForRent.id ?: 0,
@@ -35,6 +37,7 @@ data class BookForRentGetRes(
         address = bookForRent.address,
         startDate = bookForRent.startDate,
         endDate = bookForRent.endDate,
-        editable = editable
+        editable = editable,
+        state = bookForRent.state
     )
 }

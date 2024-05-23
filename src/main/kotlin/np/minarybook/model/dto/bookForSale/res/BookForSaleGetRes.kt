@@ -3,6 +3,7 @@ package np.minarybook.model.dto.bookForSale.res
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.enum.Category
+import np.minarybook.model.enum.State
 
 data class BookForSaleGetRes(
     val id: Int,
@@ -15,7 +16,8 @@ data class BookForSaleGetRes(
     val longitude: Float,
     val latitude: Float,
     val address: String?,
-    val editable: Boolean
+    val editable: Boolean,
+    val state: State
 ){
     constructor(bookForSale: BookForSale, imageList: List<String>, editable: Boolean): this(
         id = bookForSale.id ?: 0,
@@ -30,6 +32,7 @@ data class BookForSaleGetRes(
         longitude = bookForSale.longitude,
         latitude = bookForSale.latitude,
         address = bookForSale.address,
-        editable = editable
+        editable = editable,
+        state = bookForSale.state
     )
 }

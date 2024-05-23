@@ -66,9 +66,9 @@ class BookForSaleServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
-            bookForSaleRepository.findByCategoryAndStateAndSalePriceGreaterThanOrderByIdDesc(category, State.SALE, 0, PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findByCategoryAndSalePriceGreaterThanOrderByIdDesc(category, 0, PageRequest.of(0, mainPageElementSize))
         } else{
-            bookForSaleRepository.findByStateAndSalePriceGreaterThanOrderByIdDesc(State.SALE, 0, PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findBySalePriceGreaterThanOrderByIdDesc(0, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
             bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK
@@ -92,9 +92,9 @@ class BookForSaleServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         val bookForSaleList: List<BookForSale> = if(category != null){
-            bookForSaleRepository.findByCategoryAndStateAndSalePriceOrderByIdDesc(category,  State.SALE,0, PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findByCategoryAndSalePriceOrderByIdDesc(category, 0, PageRequest.of(0, mainPageElementSize))
         } else{
-            bookForSaleRepository.findByStateAndSalePriceOrderByIdDesc(State.SALE, 0, PageRequest.of(0, mainPageElementSize))
+            bookForSaleRepository.findBySalePriceOrderByIdDesc(0, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
             bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK

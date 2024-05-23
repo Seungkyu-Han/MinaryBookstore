@@ -8,13 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface BookForSaleRepository: JpaRepository<BookForSale, Int> {
-    fun findByCategoryAndStateAndSalePriceGreaterThanOrderByIdDesc(category: Category, state: State, salePrice: Int, pageable: Pageable): List<BookForSale>
+    fun findByCategoryAndSalePriceGreaterThanOrderByIdDesc(category: Category, salePrice: Int, pageable: Pageable): List<BookForSale>
 
-    fun findByStateAndSalePriceGreaterThanOrderByIdDesc(state: State, salePrice: Int, pageable: Pageable): List<BookForSale>
+    fun findBySalePriceGreaterThanOrderByIdDesc(salePrice: Int, pageable: Pageable): List<BookForSale>
 
-    fun findByCategoryAndStateAndSalePriceOrderByIdDesc(category: Category, state:State, salePrice: Int, pageable: Pageable): List<BookForSale>
+    fun findByCategoryAndSalePriceOrderByIdDesc(category: Category, salePrice: Int, pageable: Pageable): List<BookForSale>
 
-    fun findByStateAndSalePriceOrderByIdDesc(state: State, salePrice: Int, pageable: Pageable): List<BookForSale>
+    fun findBySalePriceOrderByIdDesc(salePrice: Int, pageable: Pageable): List<BookForSale>
 
     @Query("SELECT bookForSale FROM BookForSale bookForSale " +
             "LEFT JOIN bookForSale.book book " +

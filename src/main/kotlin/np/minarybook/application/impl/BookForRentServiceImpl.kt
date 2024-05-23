@@ -31,6 +31,8 @@ class BookForRentServiceImpl(
 
         val image = imageRepository.findByBookForRent(bookForRent).map { image -> image.url }
 
+        println(image)
+
         return ResponseEntity.ok(BookForRentGetRes(bookForRent, image,
             authentication?.name?.toLong() == bookForRent.user.id
         ))
@@ -69,7 +71,7 @@ class BookForRentServiceImpl(
         val bookForRent = bookForRentRepository.findById(bookForRentId).orElseThrow { NullPointerException() }
         if (bookForRent.user.id != authentication.name.toLong())
             return ResponseEntity(HttpStatus.FORBIDDEN)
-        bookForRent.state = State.SOLD
+        bookForRent.state = State.RENT
         bookForRentRepository.save(bookForRent)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -84,9 +86,9 @@ class BookForRentServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForRentGetElementRes>> {
         val bookForRentList: List<BookForRent> = if(category != null){
-            bookForRentRepository.findByCategoryAndStateOrderByIdDesc(category, State.SALE,  PageRequest.of(0, mainPageElementSize))
+            bookForRentRepository.findByCategoryOrderByIdDesc(category, PageRequest.of(0, mainPageElementSize))
         }else{
-            bookForRentRepository.findByStateOrderByIdDesc(State.SALE, PageRequest.of(0, mainPageElementSize))
+            bookForRentRepository.findByOrderByIdDesc(PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
             bookForRentList.map {bookForRent ->  BookForRentGetElementRes(bookForRent) }, HttpStatus.OK
