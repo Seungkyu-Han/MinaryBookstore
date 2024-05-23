@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import np.minarybook.application.AuthService
+import np.minarybook.model.dto.auth.res.AuthGetRes
 import np.minarybook.model.dto.auth.res.AuthLoginRes
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -30,5 +32,14 @@ class AuthController(private val authService: AuthService) {
     )
     fun patchLogin(@Parameter(hidden = true) @RequestHeader("Authorization") refreshToken: String):ResponseEntity<AuthLoginRes>{
         return authService.patchLogin(refreshToken)
+    }
+
+    @GetMapping
+    @Operation(summary = "유저 정보 조회", description = "카카오에서 유저 정보를 조회")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "성공", content = arrayOf(Content(schema = Schema(implementation = AuthGetRes::class))))
+    )
+    fun get(@Parameter(hidden = true) authentication: Authentication): ResponseEntity<AuthGetRes>{
+        return authService.get(authentication)
     }
 }

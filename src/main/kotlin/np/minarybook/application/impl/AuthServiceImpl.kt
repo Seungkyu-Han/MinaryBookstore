@@ -2,6 +2,7 @@ package np.minarybook.application.impl
 
 import np.minarybook.application.AuthService
 import np.minarybook.config.jwt.JwtTokenProvider
+import np.minarybook.model.dto.auth.res.AuthGetRes
 import np.minarybook.model.dto.auth.res.AuthKakaoAccessRes
 import np.minarybook.model.dto.auth.res.AuthKakaoInfoRes
 import np.minarybook.model.dto.auth.res.AuthLoginRes
@@ -9,6 +10,7 @@ import np.minarybook.model.entity.User
 import np.minarybook.repository.UserRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestTemplate
@@ -81,6 +83,10 @@ class AuthServiceImpl(
         ).body
     }
 
+    override fun get(authentication: Authentication): ResponseEntity<AuthGetRes> {
+        val user = userRepository.findById(authentication.name.toLong()).orElseThrow { NullPointerException() }
+        return ResponseEntity(AuthGetRes(user), HttpStatus.OK)
+    }
 
 
     private fun getKakaoAccessToken(code: String):String?{
