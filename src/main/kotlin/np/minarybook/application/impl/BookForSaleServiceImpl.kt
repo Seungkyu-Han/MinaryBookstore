@@ -38,7 +38,7 @@ class BookForSaleServiceImpl(
 
         val image = imageRepository.findByBookForSale(bookForSale).map { image -> image.url }
 
-        return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image, bookForSale.user.id == authentication?.name?.toLong()))
+        return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image, bookForSale.user.id == authentication?.name?.toLong(), bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale)))
     }
 
     override fun post(
@@ -74,7 +74,8 @@ class BookForSaleServiceImpl(
             bookForSaleRepository.findBySalePriceGreaterThanOrderByIdDesc(0, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
-            bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK
+            bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale,
+            bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale)) }, HttpStatus.OK
         )
     }
 
@@ -100,7 +101,8 @@ class BookForSaleServiceImpl(
             bookForSaleRepository.findBySalePriceOrderByIdDesc(0, PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
-            bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale) }, HttpStatus.OK
+            bookForSaleList.map {bookForSale ->  BookForSaleGetElementRes(bookForSale,
+                bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale)) }, HttpStatus.OK
         )
     }
 
@@ -118,7 +120,7 @@ class BookForSaleServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         return ResponseEntity(bookForSaleRepository.findByBookTitle("%${title}%").map{
-            bookForSale -> BookForSaleGetElementRes(bookForSale)
+            bookForSale -> BookForSaleGetElementRes(bookForSale, bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale))
         }, HttpStatus.OK)
     }
 
@@ -127,7 +129,7 @@ class BookForSaleServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForSaleGetElementRes>> {
         return ResponseEntity(bookForSaleRepository.findByBookIsbn(isbn).map{
-            bookForSale -> BookForSaleGetElementRes(bookForSale)
+            bookForSale -> BookForSaleGetElementRes(bookForSale, bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale))
         }, HttpStatus.OK)
     }
 
