@@ -74,4 +74,16 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
     fun getSearchIsbn(@RequestParam isbn: String, @Parameter(hidden = true, required = false) authentication: Authentication?): ResponseEntity<List<BookForRentGetElementRes>>{
         return bookForRentService.getSearchIsbn(isbn, authentication)
     }
+
+    @PostMapping("/save")
+    @Operation(summary = "찜 목록에 추가")
+    fun postSave(@RequestParam bookForSaleId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForRentService.postSave(bookForSaleId, authentication)
+    }
+
+    @DeleteMapping("/save")
+    @Operation(summary = "찜 목록에서 삭제")
+    fun deleteSave(@RequestParam bookForSaleId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForRentService.deleteSave(bookForSaleId, authentication)
+    }
 }

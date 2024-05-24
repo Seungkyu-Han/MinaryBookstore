@@ -18,4 +18,6 @@ interface BookForRentService {
     fun getList(category: Category?, authentication: Authentication?): ResponseEntity<List<BookForRentGetElementRes>>
     fun getSearchTitle(title: String, authentication: Authentication?): ResponseEntity<List<BookForRentGetElementRes>>
     fun getSearchIsbn(isbn: String, authentication: Authentication?): ResponseEntity<List<BookForRentGetElementRes>>
+    fun postSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
+    fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
 }

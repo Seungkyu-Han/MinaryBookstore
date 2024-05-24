@@ -7,10 +7,12 @@ import np.minarybook.model.dto.bookForRent.res.BookForRentGetElementRes
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForRent
+import np.minarybook.model.entity.BookForRentSave
 import np.minarybook.model.entity.User
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
 import np.minarybook.repository.BookForRentRepository
+import np.minarybook.repository.BookForRentSaveRepository
 import np.minarybook.repository.ImageRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service
 class BookForRentServiceImpl(
     private val bookForRentRepository: BookForRentRepository,
     private val imageRepository: ImageRepository,
+    private val bookForRentSaveRepository: BookForRentSaveRepository,
     @Value("\${mainPageElementSize}")
     private val mainPageElementSize: Int) : BookForRentService{
     override fun get(id: Int, authentication: Authentication?): ResponseEntity<BookForRentGetRes> {
@@ -73,6 +76,18 @@ class BookForRentServiceImpl(
             return ResponseEntity(HttpStatus.FORBIDDEN)
         bookForRent.state = State.RENT
         bookForRentRepository.save(bookForRent)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    override fun postSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForRent = bookForRentRepository.findById(bookForSaleId).orElseThrow{NullPointerException()}
+        bookForRentSaveRepository.save(BookForRentSave(User(authentication.name.toLong()), bookForRent))
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    override fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForRent = bookForRentRepository.findById(bookForSaleId).orElseThrow{NullPointerException()}
+        bookForRentSaveRepository.deleteByUserAndBookForRent(BookForRentSave(User(authentication.name.toLong()), bookForRent))
         return ResponseEntity(HttpStatus.OK)
     }
 
