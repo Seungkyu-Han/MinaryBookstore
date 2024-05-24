@@ -87,7 +87,7 @@ class BookForRentServiceImpl(
 
     override fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
         val bookForRent = bookForRentRepository.findById(bookForSaleId).orElseThrow{NullPointerException()}
-        bookForRentSaveRepository.deleteByUserAndBookForRent(BookForRentSave(User(authentication.name.toLong()), bookForRent))
+        bookForRentSaveRepository.deleteByUserAndBookForRent(User(authentication.name.toLong()), bookForRent)
         return ResponseEntity(HttpStatus.OK)
     }
 
