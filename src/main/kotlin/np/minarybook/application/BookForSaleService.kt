@@ -19,4 +19,6 @@ interface BookForSaleService {
     fun patchSold(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
     fun getSearchTitle(title: String, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
     fun getSearchIsbn(isbn: String, authentication: Authentication?): ResponseEntity<List<BookForSaleGetElementRes>>
+    fun postSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
+    fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus>
 }

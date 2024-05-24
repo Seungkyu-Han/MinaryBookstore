@@ -7,10 +7,12 @@ import np.minarybook.model.dto.bookForSale.res.BookForSaleGetElementRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForSale
+import np.minarybook.model.entity.BookForSaleSave
 import np.minarybook.model.entity.User
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
 import np.minarybook.repository.BookForSaleRepository
+import np.minarybook.repository.BookForSaleSaveRepository
 import np.minarybook.repository.BookRepository
 import np.minarybook.repository.ImageRepository
 import org.springframework.beans.factory.annotation.Value
@@ -25,6 +27,7 @@ class BookForSaleServiceImpl(
     private val bookForSaleRepository: BookForSaleRepository,
     private val bookRepository: BookRepository,
     private val imageRepository: ImageRepository,
+    private val bookForSaleSaveRepository: BookForSaleSaveRepository,
     @Value("\${mainPageElementSize}")
     private val mainPageElementSize: Int
 ) : BookForSaleService{
@@ -126,5 +129,17 @@ class BookForSaleServiceImpl(
         return ResponseEntity(bookForSaleRepository.findByBookIsbn(isbn).map{
             bookForSale -> BookForSaleGetElementRes(bookForSale)
         }, HttpStatus.OK)
+    }
+
+    override fun postSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForSale = bookForSaleRepository.findById(bookForSaleId).orElseThrow { NullPointerException() }
+        bookForSaleSaveRepository.save(BookForSaleSave(user = User(authentication.name.toLong()), bookForSale = bookForSale))
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    override fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForSale = bookForSaleRepository.findById(bookForSaleId).orElseThrow { NullPointerException() }
+        bookForSaleSaveRepository.deleteByUserAndBookForSale(User(authentication.name.toLong()), bookForSale)
+        return ResponseEntity(HttpStatus.OK)
     }
 }
