@@ -20,7 +20,7 @@ data class BookForRentGetElementRes(
     val state: State,
     val createdAt: LocalDate
 ){
-    constructor(bookForRent: BookForRent): this(
+    constructor(bookForRent: BookForRent, isSave: Boolean): this(
         id = bookForRent.id ?: 0,
         title = bookForRent.book.title ?: "",
         author = StringUtil().stringToList(bookForRent.book.author ?: ""),
@@ -30,7 +30,7 @@ data class BookForRentGetElementRes(
         category = bookForRent.category,
         publisher = bookForRent.book.publisher ?: "",
         publicationDate = bookForRent.book.publicationDate ?: "",
-        isSave = false,
+        isSave = isSave,
         state = bookForRent.state,
         createdAt = bookForRent.createdAt
     )

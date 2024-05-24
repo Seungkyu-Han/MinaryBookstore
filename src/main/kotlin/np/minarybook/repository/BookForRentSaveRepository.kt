@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface BookForRentSaveRepository: JpaRepository<BookForRentSave, Int> {
     fun deleteByUserAndBookForRent(user: User, bookForRent: BookForRent)
+    fun existsByUserAndBookForRent(user: User, bookForRent: BookForRent?): Boolean
 }

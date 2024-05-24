@@ -83,7 +83,7 @@ class BookForRentController(private val bookForRentService: BookForRentService) 
 
     @DeleteMapping("/save")
     @Operation(summary = "찜 목록에서 삭제")
-    fun deleteSave(@RequestParam bookForSaleId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
-        return bookForRentService.deleteSave(bookForSaleId, authentication)
+    fun deleteSave(@RequestParam bookForRentId: Int, @Parameter(hidden = true) authentication: Authentication): ResponseEntity<HttpStatus>{
+        return bookForRentService.deleteSave(bookForRentId, authentication)
     }
 }

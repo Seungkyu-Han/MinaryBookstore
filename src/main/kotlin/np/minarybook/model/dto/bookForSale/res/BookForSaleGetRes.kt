@@ -1,6 +1,7 @@
 package np.minarybook.model.dto.bookForSale.res
 
 import np.minarybook.model.dto.book.res.BookGetRes
+import np.minarybook.model.dto.image.res.ImageGetElementRes
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
@@ -10,7 +11,7 @@ data class BookForSaleGetRes(
     val id: Int,
     val bookGetRes: BookGetRes,
     val conditions: List<Short>,
-    val imageList: List<String>,
+    val imageList: List<ImageGetElementRes>,
     val detail: String,
     val salePrice: Int,
     val category: Category,
@@ -22,7 +23,7 @@ data class BookForSaleGetRes(
     val createdAt: LocalDate,
     val isSave: Boolean
 ){
-    constructor(bookForSale: BookForSale, imageList: List<String>, editable: Boolean, isSave: Boolean): this(
+    constructor(bookForSale: BookForSale, imageList: List<ImageGetElementRes>, editable: Boolean, isSave: Boolean): this(
         id = bookForSale.id ?: 0,
         bookGetRes = BookGetRes(bookForSale.book),
         imageList = imageList,

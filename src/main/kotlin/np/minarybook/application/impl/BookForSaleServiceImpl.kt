@@ -5,6 +5,7 @@ import np.minarybook.model.dto.bookForSale.req.BookForSalePostReq
 import np.minarybook.model.dto.bookForSale.req.BookForSalePutReq
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetElementRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
+import np.minarybook.model.dto.image.res.ImageGetElementRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForSale
 import np.minarybook.model.entity.BookForSaleSave
@@ -36,7 +37,7 @@ class BookForSaleServiceImpl(
 
         val bookForSale = bookForSaleRepository.findById(id).orElseThrow{NullPointerException()}
 
-        val image = imageRepository.findByBookForSale(bookForSale).map { image -> image.url }
+        val image = imageRepository.findByBookForSale(bookForSale).map { image -> ImageGetElementRes(image) }
 
         return ResponseEntity.ok(BookForSaleGetRes(bookForSale, image, bookForSale.user.id == authentication?.name?.toLong(), bookForSaleSaveRepository.existsByUserAndBookForSale(User(authentication?.name?.toLong() ?: -1), bookForSale)))
     }

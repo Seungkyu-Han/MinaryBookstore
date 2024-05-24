@@ -5,6 +5,7 @@ import np.minarybook.model.dto.bookForRent.req.BookForRentPostReq
 import np.minarybook.model.dto.bookForRent.req.BookForRentPutReq
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetElementRes
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
+import np.minarybook.model.dto.image.res.ImageGetElementRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.BookForRent
 import np.minarybook.model.entity.BookForRentSave
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BookForRentServiceImpl(
@@ -32,13 +34,13 @@ class BookForRentServiceImpl(
 
         val bookForRent = bookForRentRepository.findById(id).orElseThrow{NullPointerException()}
 
-        val image = imageRepository.findByBookForRent(bookForRent).map { image -> image.url }
+        val image = imageRepository.findByBookForRent(bookForRent).map { image -> ImageGetElementRes(image) }
 
         println(image)
 
         return ResponseEntity.ok(BookForRentGetRes(bookForRent, image,
-            authentication?.name?.toLong() == bookForRent.user.id
-        ))
+            authentication?.name?.toLong() == bookForRent.user.id, bookForRentSaveRepository.existsByUserAndBookForRent(User(authentication?.name?.toLong() ?: -1), bookForRent))
+        )
     }
 
     override fun put(bookForRentPutReq: BookForRentPutReq, authentication: Authentication): ResponseEntity<HttpStatus> {
@@ -85,8 +87,9 @@ class BookForRentServiceImpl(
         return ResponseEntity(HttpStatus.OK)
     }
 
-    override fun deleteSave(bookForSaleId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
-        val bookForRent = bookForRentRepository.findById(bookForSaleId).orElseThrow{NullPointerException()}
+    @Transactional
+    override fun deleteSave(bookForRentId: Int, authentication: Authentication): ResponseEntity<HttpStatus> {
+        val bookForRent = bookForRentRepository.findById(bookForRentId).orElseThrow{NullPointerException()}
         bookForRentSaveRepository.deleteByUserAndBookForRent(User(authentication.name.toLong()), bookForRent)
         return ResponseEntity(HttpStatus.OK)
     }
@@ -106,7 +109,8 @@ class BookForRentServiceImpl(
             bookForRentRepository.findByOrderByIdDesc(PageRequest.of(0, mainPageElementSize))
         }
         return ResponseEntity(
-            bookForRentList.map {bookForRent ->  BookForRentGetElementRes(bookForRent) }, HttpStatus.OK
+            bookForRentList.map {bookForRent ->  BookForRentGetElementRes(bookForRent,
+                bookForRentSaveRepository.existsByUserAndBookForRent(User(authentication?.name?.toLong() ?: -1), bookForRent)) }, HttpStatus.OK
         )
     }
 
@@ -115,7 +119,8 @@ class BookForRentServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForRentGetElementRes>> {
         return ResponseEntity(bookForRentRepository.findByBookTitle("%${title}%").map{
-                bookForRent -> BookForRentGetElementRes(bookForRent)
+                bookForRent -> BookForRentGetElementRes(bookForRent,
+            bookForRentSaveRepository.existsByUserAndBookForRent(User(authentication?.name?.toLong() ?: -1), bookForRent))
         }, HttpStatus.OK)
     }
 
@@ -124,7 +129,7 @@ class BookForRentServiceImpl(
         authentication: Authentication?
     ): ResponseEntity<List<BookForRentGetElementRes>> {
         return ResponseEntity(bookForRentRepository.findByBookIsbn(isbn).map{
-                bookForRent -> BookForRentGetElementRes((bookForRent))
+                bookForRent -> BookForRentGetElementRes(bookForRent, bookForRentSaveRepository.existsByUserAndBookForRent(User(authentication?.name?.toLong() ?: -1), bookForRent))
         }, HttpStatus.OK)
     }
 }
