@@ -7,10 +7,12 @@ import np.minarybook.model.enum.State
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.transaction.annotation.Transactional
 
 interface BookForRentRepository: JpaRepository<BookForRent, Int> {
     fun findByCategoryOrderByIdDesc(category: Category, pageable: Pageable): List<BookForRent>
 
+    @Transactional
     fun deleteByIdAndUser(id: Int, user: User)
     fun findByOrderByIdDesc(pageable: Pageable): List<BookForRent>
 
