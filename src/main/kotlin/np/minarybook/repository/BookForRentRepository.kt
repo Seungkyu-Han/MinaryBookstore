@@ -26,4 +26,5 @@ interface BookForRentRepository: JpaRepository<BookForRent, Int> {
             "WHERE book.isbn LIKE (:isbn) AND bookForRent.state = :state"
     )
     fun findByBookIsbn(isbn: String, state: State = State.SALE): List<BookForRent>
+    fun findByUser(user: User): List<BookForRent>
 }

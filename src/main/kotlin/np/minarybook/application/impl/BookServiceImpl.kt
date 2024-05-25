@@ -4,6 +4,7 @@ import np.minarybook.application.BookService
 import np.minarybook.model.dto.book.req.BookPostReq
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.dto.book.res.BookGetSaveRes
+import np.minarybook.model.dto.book.res.BookGetUploadRes
 import np.minarybook.model.dto.book.res.ISBNSeojiRes
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
@@ -25,12 +26,30 @@ class BookServiceImpl(
     @Value("\${kakao.auth.client_id}")
     private val key: String,
     private val bookRepository: BookRepository,
+    private val bookForSaleRepository: BookForSaleRepository,
+    private val bookForRentRepository: BookForRentRepository,
     private val bookForSaleSaveRepository: BookForSaleSaveRepository,
     private val bookForRentSaveRepository: BookForRentSaveRepository,
     private val imageRepository: ImageRepository
 ): BookService {
 
     private val requestUrl: String = "https://dapi.kakao.com/v3/search/book"
+    override fun getUpload(authentication: Authentication): ResponseEntity<BookGetUploadRes> {
+        val user = User(authentication.name.toLong())
+        val bookForSaleList = bookForSaleRepository.findByUser(user).map {
+                bookForSale -> BookForSaleGetRes(bookForSale,
+            imageRepository.findByBookForSale(bookForSale).map{
+                    image -> ImageGetElementRes(image)
+            }, editable = true, isSave = true)
+        }
+        val bookForRentList = bookForRentRepository.findByUser(user).map{
+                bookForRent -> BookForRentGetRes(bookForRent,
+            imageRepository.findByBookForRent(bookForRent).map{
+                    image -> ImageGetElementRes(image)
+            }, editable = true, isSave = true
+        )}
+        return ResponseEntity.ok(BookGetUploadRes(bookForSaleList, bookForRentList))
+    }
 
     override fun getIsbn(isbn: String): ResponseEntity<BookGetRes> {
         val serverFuture = CompletableFuture.supplyAsync {

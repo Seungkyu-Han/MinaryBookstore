@@ -11,6 +11,7 @@ import np.minarybook.application.BookService
 import np.minarybook.model.dto.book.req.BookPostReq
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.dto.book.res.BookGetSaveRes
+import np.minarybook.model.dto.book.res.BookGetUploadRes
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
@@ -58,5 +59,14 @@ class BookController(private val bookService: BookService) {
     )
     fun getSave(@Parameter(hidden = true) authentication: Authentication): ResponseEntity<BookGetSaveRes>{
         return bookService.getSave(authentication)
+    }
+
+    @GetMapping("/upload")
+    @Operation(summary = "모든 작성글 조회")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "성공", content = arrayOf(Content(schema = Schema(implementation = BookGetUploadRes::class))))
+    )
+    fun getUpload(@Parameter(hidden = true) authentication: Authentication): ResponseEntity<BookGetUploadRes>{
+        return bookService.getUpload(authentication)
     }
 }

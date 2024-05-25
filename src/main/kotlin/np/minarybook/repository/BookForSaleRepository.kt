@@ -1,6 +1,7 @@
 package np.minarybook.repository
 
 import np.minarybook.model.entity.BookForSale
+import np.minarybook.model.entity.User
 import np.minarybook.model.enum.Category
 import np.minarybook.model.enum.State
 import org.springframework.data.domain.Pageable
@@ -25,4 +26,5 @@ interface BookForSaleRepository: JpaRepository<BookForSale, Int> {
             "LEFT JOIN bookForSale.book book " +
             "WHERE book.isbn LIKE (:isbn) AND bookForSale.state = :state")
     fun findByBookIsbn(isbn: String, state: State = State.SALE): List<BookForSale>
+    fun findByUser(user: User): List<BookForSale>
 }
