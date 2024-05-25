@@ -8,10 +8,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import np.minarybook.application.BookService
-import np.minarybook.model.dto.auth.res.AuthLoginRes
 import np.minarybook.model.dto.book.req.BookPostReq
 import np.minarybook.model.dto.book.res.BookGetRes
+import np.minarybook.model.dto.book.res.BookGetSaveRes
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -48,5 +49,14 @@ class BookController(private val bookService: BookService) {
     )
     fun post(@RequestBody bookPostReq: BookPostReq): ResponseEntity<BookGetRes>{
         return bookService.post(bookPostReq)
+    }
+
+    @GetMapping("/save")
+    @Operation(summary = "모든 관심목록 조회")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "성공", content = arrayOf(Content(schema = Schema(implementation = BookGetSaveRes::class))))
+    )
+    fun getSave(@Parameter(hidden = true) authentication: Authentication): ResponseEntity<BookGetSaveRes>{
+        return bookService.getSave(authentication)
     }
 }

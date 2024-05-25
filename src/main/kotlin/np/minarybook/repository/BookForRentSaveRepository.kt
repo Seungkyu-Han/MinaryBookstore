@@ -10,4 +10,5 @@ interface BookForRentSaveRepository: JpaRepository<BookForRentSave, Int> {
     @Transactional
     fun deleteByUserAndBookForRent(user: User, bookForRent: BookForRent)
     fun existsByUserAndBookForRent(user: User, bookForRent: BookForRent?): Boolean
+    fun findByUser(user: User): List<BookForRentSave>
 }

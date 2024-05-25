@@ -3,11 +3,17 @@ package np.minarybook.application.impl
 import np.minarybook.application.BookService
 import np.minarybook.model.dto.book.req.BookPostReq
 import np.minarybook.model.dto.book.res.BookGetRes
+import np.minarybook.model.dto.book.res.BookGetSaveRes
 import np.minarybook.model.dto.book.res.ISBNSeojiRes
+import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
+import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
+import np.minarybook.model.dto.image.res.ImageGetElementRes
 import np.minarybook.model.entity.Book
-import np.minarybook.repository.BookRepository
+import np.minarybook.model.entity.User
+import np.minarybook.repository.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.*
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -18,7 +24,10 @@ import java.util.concurrent.CompletableFuture
 class BookServiceImpl(
     @Value("\${kakao.auth.client_id}")
     private val key: String,
-    private val bookRepository: BookRepository
+    private val bookRepository: BookRepository,
+    private val bookForSaleSaveRepository: BookForSaleSaveRepository,
+    private val bookForRentSaveRepository: BookForRentSaveRepository,
+    private val imageRepository: ImageRepository
 ): BookService {
 
     private val requestUrl: String = "https://dapi.kakao.com/v3/search/book"
@@ -52,6 +61,23 @@ class BookServiceImpl(
         val book = Book(bookPostReq)
         bookRepository.save(book)
         return ResponseEntity(BookGetRes(book), HttpStatus.OK)
+    }
+
+    override fun getSave(authentication: Authentication): ResponseEntity<BookGetSaveRes> {
+        val user = User(authentication.name.toLong())
+        val bookForSaleList = bookForSaleSaveRepository.findByUser(user).map {
+            bookForSaleSave -> BookForSaleGetRes(bookForSaleSave.bookForSale,
+                imageRepository.findByBookForSale(bookForSaleSave.bookForSale).map{
+                    image -> ImageGetElementRes(image)
+                }, bookForSaleSave.bookForSale.user.id == authentication.name?.toLong(), true)
+        }
+        val bookForRentList = bookForRentSaveRepository.findByUser(user).map{
+            bookForRentSave -> BookForRentGetRes(bookForRentSave.bookForRent,
+            imageRepository.findByBookForRent(bookForRentSave.bookForRent).map{
+                image -> ImageGetElementRes(image)
+            }, bookForRentSave.bookForRent.user.id == authentication.name?.toLong(), true)
+        }
+        return ResponseEntity.ok(BookGetSaveRes(bookForSaleList, bookForRentList))
     }
 
     private fun getFromDB(isbn: String): BookGetRes?{
