@@ -89,6 +89,12 @@ class BookForSaleServiceImpl(
         val bookForSale = bookForSaleRepository.findById(bookForSalePutReq.id).orElseThrow { NullPointerException() }
         bookForSale.put(bookForSalePutReq)
         bookForSaleRepository.save(bookForSale)
+        bookForSalePutReq.imageIdList.map {
+                imageId ->
+            val image = imageRepository.findById(imageId).orElseThrow { NullPointerException() }
+            image.bookForSale= bookForSale
+            imageRepository.save(image)
+        }
         return ResponseEntity.ok().build()
     }
 
