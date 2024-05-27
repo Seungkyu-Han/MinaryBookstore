@@ -1,5 +1,5 @@
 package np.minarybook.model.enum
 
 enum class State {
-    SALE, SOLD, AVAILABLE, RENT
+    SALE, SOLD, SHARED, AVAILABLE, RENT
 }

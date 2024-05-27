@@ -39,7 +39,7 @@ data class BookForSaleGetRes(
         latitude = bookForSale.latitude,
         address = bookForSale.address,
         editable = editable,
-        state = bookForSale.state,
+        state = if(bookForSale.salePrice == 0) State.SHARED else bookForSale.state,
         createdAt = bookForSale.createdAt,
         isSave = isSave,
         writerName = bookForSale.user.name,
