@@ -21,7 +21,9 @@ data class BookForSaleGetRes(
     val editable: Boolean,
     val state: State,
     val createdAt: LocalDate,
-    val isSave: Boolean
+    val isSave: Boolean,
+    val writerName: String?,
+    val writerImg: String?
 ){
     constructor(bookForSale: BookForSale, imageList: List<ImageGetElementRes>, editable: Boolean, isSave: Boolean): this(
         id = bookForSale.id ?: 0,
@@ -39,6 +41,8 @@ data class BookForSaleGetRes(
         editable = editable,
         state = bookForSale.state,
         createdAt = bookForSale.createdAt,
-        isSave = isSave
+        isSave = isSave,
+        writerName = bookForSale.user.name,
+        writerImg = bookForSale.user.profileImg
     )
 }
