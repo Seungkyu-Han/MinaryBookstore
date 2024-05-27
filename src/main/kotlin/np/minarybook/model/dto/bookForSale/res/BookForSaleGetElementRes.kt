@@ -31,7 +31,7 @@ data class BookForSaleGetElementRes(
         publisher = bookForSale.book.publisher ?: "",
         publicationDate = bookForSale.book.publicationDate ?: "",
         isSave = isSave,
-        state = if(bookForSale.salePrice == 0) State.SHARED else bookForSale.state,
+        state = if(bookForSale.state == State.SOLD) State.SOLD else if(bookForSale.salePrice == 0) State.SHARED else State.SALE,
         createdAt = bookForSale.createdAt
     )
 }
