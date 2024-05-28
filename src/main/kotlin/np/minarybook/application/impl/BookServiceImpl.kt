@@ -2,17 +2,16 @@ package np.minarybook.application.impl
 
 import np.minarybook.application.BookService
 import np.minarybook.model.dto.book.req.BookPostReq
-import np.minarybook.model.dto.book.res.BookGetRes
-import np.minarybook.model.dto.book.res.BookGetSaveRes
-import np.minarybook.model.dto.book.res.BookGetUploadRes
-import np.minarybook.model.dto.book.res.ISBNSeojiRes
+import np.minarybook.model.dto.book.res.*
 import np.minarybook.model.dto.bookForRent.res.BookForRentGetRes
 import np.minarybook.model.dto.bookForSale.res.BookForSaleGetRes
 import np.minarybook.model.dto.image.res.ImageGetElementRes
 import np.minarybook.model.entity.Book
 import np.minarybook.model.entity.User
+import np.minarybook.model.enum.State
 import np.minarybook.repository.*
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.*
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Service
@@ -34,6 +33,7 @@ class BookServiceImpl(
 ): BookService {
 
     private val requestUrl: String = "https://dapi.kakao.com/v3/search/book"
+    private val bestSellerElementCount = 5
     override fun getUpload(authentication: Authentication): ResponseEntity<BookGetUploadRes> {
         val user = User(authentication.name.toLong())
         val bookForSaleList = bookForSaleRepository.findByUser(user).map {
@@ -49,6 +49,18 @@ class BookServiceImpl(
             }, editable = true, isSave = true
         )}
         return ResponseEntity.ok(BookGetUploadRes(bookForSaleList, bookForRentList))
+    }
+
+    override fun getBest(): ResponseEntity<List<BookGetBestRes>> {
+        val bestSeller = bookRepository.findByBestSeller(State.SOLD, PageRequest.of(0, bestSellerElementCount))
+        val notBestSeller = bookRepository.findByNotBestSeller(state = State.SOLD,
+            pageable =  PageRequest.of(0, bestSellerElementCount - bestSeller.size),
+            bestSeller.map { book -> book.id ?: 0 })
+        return ResponseEntity(bestSeller.plus(notBestSeller)
+            .map {
+                    book ->
+                BookGetBestRes(book, bookRepository.countBestSeller(book.id ?: 0, State.SOLD))
+            }, HttpStatus.OK)
     }
 
     override fun getIsbn(isbn: String): ResponseEntity<BookGetRes> {

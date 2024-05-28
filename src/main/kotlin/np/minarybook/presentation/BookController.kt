@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import np.minarybook.application.BookService
 import np.minarybook.model.dto.book.req.BookPostReq
+import np.minarybook.model.dto.book.res.BookGetBestRes
 import np.minarybook.model.dto.book.res.BookGetRes
 import np.minarybook.model.dto.book.res.BookGetSaveRes
 import np.minarybook.model.dto.book.res.BookGetUploadRes
@@ -68,5 +69,14 @@ class BookController(private val bookService: BookService) {
     )
     fun getUpload(@Parameter(hidden = true) authentication: Authentication): ResponseEntity<BookGetUploadRes>{
         return bookService.getUpload(authentication)
+    }
+
+    @GetMapping("/best")
+    @Operation(summary = "베스트 셀러 조회")
+    @ApiResponses(
+        ApiResponse(responseCode = "200", description = "성공", content = arrayOf(Content(schema = Schema(implementation = BookGetBestRes::class))))
+    )
+    fun getBest(): ResponseEntity<List<BookGetBestRes>>{
+        return bookService.getBest()
     }
 }
