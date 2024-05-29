@@ -1,6 +1,7 @@
 package np.minarybook.repository
 
 import np.minarybook.model.entity.Chat
+import np.minarybook.model.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
@@ -11,4 +12,5 @@ interface ChatRepository: JpaRepository<Chat, Int> {
                 "WHERE (chat.receiver.id = :userOne AND chat.sender.id = :userTwo) OR (chat.receiver.id = :userTwo AND chat.sender.id = :userOne)"
     )
     fun findByMyChat(userOne: Long, userTwo: Long): List<Chat>
+    fun findByReceiverOrSenderOrderByIdDesc(user: User, user1: User): List<Chat>
 }
