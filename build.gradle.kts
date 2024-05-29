@@ -47,6 +47,9 @@ dependencies {
 	//s3
 	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 
+	//socket
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
